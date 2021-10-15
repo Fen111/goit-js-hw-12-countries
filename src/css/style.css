@@ -1,0 +1,28 @@
+body {
+  background-color: burlywood;
+}
+
+input {
+  margin: 20px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flag {
+  margin-left: 30px;
+  width: 450px;
+  height: 300px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.country__list {
+  font-size: 24px;
+  font-weight: 500;
+}
