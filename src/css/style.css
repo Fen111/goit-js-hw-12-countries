@@ -1,5 +1,9 @@
 body {
-  background-color: burlywood;
+  background-color: rgba(177, 167, 153, 0.281);
+}
+
+.value {
+  font-weight: normal;
 }
 
 input {
@@ -9,17 +13,12 @@ input {
 .info {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .flag {
   margin-left: 30px;
   width: 450px;
   height: 300px;
-}
-
-h1 {
-  text-align: center;
 }
 
 .country__list {

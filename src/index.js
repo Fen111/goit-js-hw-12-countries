@@ -1,3 +1,8 @@
+import '@pnotify/core/dist/BrightTheme.css';
+import { alert, notice, info, success, error, defaultModules } from '@pnotify/core';
+import * as PNotifyDesktop from '@pnotify/desktop';
+import '@pnotify/core/dist/PNotify.css';
+
 import fetchCountries from './js/fetchCountries';
 import refs from './js/refs';
 import countryCards from '../src/templates/card-country.hbs';
@@ -5,36 +10,37 @@ import countryListFound from '../src/templates/list-country.hbs';
 
 const { debounce } = require('lodash');
 
-const BASE_URL = `https://restcountries.com/v2`;
-let endpoint = `/name/`;
-
 refs.inputSearch.addEventListener(
   'input',
-
   debounce(e => {
     let inputValue = e.target.value;
-    let nameCountry = `${inputValue}`;
-    let url = BASE_URL + endpoint + nameCountry;
-    fetch(url)
-      .then(result => {
-        console.log(result);
-        return result.json();
-      })
-      .then(dataCountries => {
-        console.log(dataCountries);
-        if (dataCountries.length > 10) {
-          return alert('Too many matches found. Please enter a more specific query!');
-        }
-        if (dataCountries.length > 1) {
-          let markup = countryListFound(dataCountries);
-          return refs.countryList.insertAdjacentHTML('afterbegin', markup);
-        } else {
-          let markup = countryCards(dataCountries);
-          return refs.countryList.insertAdjacentHTML('afterbegin', markup);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, 500),
+    fetchCountries(inputValue).then(renderCountries).catch(catchError);
+  }, 700),
 );
+
+function renderCountries(dataCountries) {
+  clearCountryList();
+  if (dataCountries.length > 10) {
+    const myNotice = notice({
+      text: 'Too many matches found. Please enter a more specific query!',
+      modules: new Map([...defaultModules, [PNotifyDesktop, {}]]),
+    });
+  } else if (dataCountries.length > 1) {
+    let markup = countryListFound(dataCountries);
+    refs.countryList.insertAdjacentHTML('afterbegin', markup);
+  } else {
+    let markup = countryCards(dataCountries);
+    refs.countryList.insertAdjacentHTML('afterbegin', markup);
+  }
+}
+
+function clearCountryList() {
+  refs.countryList.innerHTML = '';
+}
+
+function catchError() {
+  const myNotice = notice({
+    text: 'Error 404. Not found',
+    modules: new Map([...defaultModules, [PNotifyDesktop, {}]]),
+  });
+}

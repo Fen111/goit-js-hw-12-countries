@@ -3,16 +3,16 @@
 <h1>{{name}}</h1>
 <div class="info">
     <div>
-        <h2>Capital: {{capital}}
+        <h2>Capital:  <span class="value">{{capital}}</span>
             <h2 />
-            <h2>Population:{{population}}</h2>
-            <h2>Languages:</h2>
-            <ul>
+            <h2>Population: <span class="value">{{population}}</span> </h2>
+            <h2>Languages: </h2>
+            <ul class="value">
                 {{#each languages}}
                 <li>{{this.name}}</li>
                 {{/each}}
             </ul>
     </div>
-    <div><img src={{flag}} alt="" class="flag" /></div>
+    <div><img src={{flag}} alt={{name}} class="flag" /></div>
 </div>`
 {{/each}}
